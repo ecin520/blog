@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pytap.blog.dao.ViewsMapper">
+  <resultMap id="BaseResultMap" type="com.pytap.blog.model.domain.Views">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="all_views" jdbcType="BIGINT" property="allViews" />
+    <result column="day_views" jdbcType="BIGINT" property="dayViews" />
+    <result column="vis_num" jdbcType="BIGINT" property="visNum" />
+    <result column="ip_num" jdbcType="BIGINT" property="ipNum" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, all_views, day_views, vis_num, ip_num
+  </sql>
+  <select id="selectByExample" parameterType="com.pytap.blog.model.domain.ViewsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from views
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from views
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from views
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pytap.blog.model.domain.ViewsExample">
+    delete from views
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pytap.blog.model.domain.Views">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into views (all_views, day_views, vis_num, 
+      ip_num)
+    values (#{allViews,jdbcType=BIGINT}, #{dayViews,jdbcType=BIGINT}, #{visNum,jdbcType=BIGINT}, 
+      #{ipNum,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pytap.blog.model.domain.Views">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into views
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="allViews != null">
+        all_views,
+      </if>
+      <if test="dayViews != null">
+        day_views,
+      </if>
+      <if test="visNum != null">
+        vis_num,
+      </if>
+      <if test="ipNum != null">
+        ip_num,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="allViews != null">
+        #{allViews,jdbcType=BIGINT},
+      </if>
+      <if test="dayViews != null">
+        #{dayViews,jdbcType=BIGINT},
+      </if>
+      <if test="visNum != null">
+        #{visNum,jdbcType=BIGINT},
+      </if>
+      <if test="ipNum != null">
+        #{ipNum,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pytap.blog.model.domain.ViewsExample" resultType="java.lang.Long">
+    select count(*) from views
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update views
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.allViews != null">
+        all_views = #{record.allViews,jdbcType=BIGINT},
+      </if>
+      <if test="record.dayViews != null">
+        day_views = #{record.dayViews,jdbcType=BIGINT},
+      </if>
+      <if test="record.visNum != null">
+        vis_num = #{record.visNum,jdbcType=BIGINT},
+      </if>
+      <if test="record.ipNum != null">
+        ip_num = #{record.ipNum,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update views
+    set id = #{record.id,jdbcType=BIGINT},
+      all_views = #{record.allViews,jdbcType=BIGINT},
+      day_views = #{record.dayViews,jdbcType=BIGINT},
+      vis_num = #{record.visNum,jdbcType=BIGINT},
+      ip_num = #{record.ipNum,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pytap.blog.model.domain.Views">
+    update views
+    <set>
+      <if test="allViews != null">
+        all_views = #{allViews,jdbcType=BIGINT},
+      </if>
+      <if test="dayViews != null">
+        day_views = #{dayViews,jdbcType=BIGINT},
+      </if>
+      <if test="visNum != null">
+        vis_num = #{visNum,jdbcType=BIGINT},
+      </if>
+      <if test="ipNum != null">
+        ip_num = #{ipNum,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pytap.blog.model.domain.Views">
+    update views
+    set all_views = #{allViews,jdbcType=BIGINT},
+      day_views = #{dayViews,jdbcType=BIGINT},
+      vis_num = #{visNum,jdbcType=BIGINT},
+      ip_num = #{ipNum,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

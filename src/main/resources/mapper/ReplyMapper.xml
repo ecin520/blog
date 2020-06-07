@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pytap.blog.dao.ReplyMapper">
+  <resultMap id="BaseResultMap" type="com.pytap.blog.model.domain.Reply">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="comment_id" jdbcType="BIGINT" property="commentId" />
+    <result column="commentator" jdbcType="BIGINT" property="commentator" />
+    <result column="commentator_name" jdbcType="VARCHAR" property="commentatorName" />
+    <result column="commentator_avatar" jdbcType="VARCHAR" property="commentatorAvatar" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, comment_id, commentator, commentator_name, commentator_avatar, create_time, content
+  </sql>
+  <select id="selectByExample" parameterType="com.pytap.blog.model.domain.ReplyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from reply
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from reply
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from reply
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pytap.blog.model.domain.ReplyExample">
+    delete from reply
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pytap.blog.model.domain.Reply">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into reply (comment_id, commentator, commentator_name, 
+      commentator_avatar, create_time, content
+      )
+    values (#{commentId,jdbcType=BIGINT}, #{commentator,jdbcType=BIGINT}, #{commentatorName,jdbcType=VARCHAR}, 
+      #{commentatorAvatar,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pytap.blog.model.domain.Reply">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into reply
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="commentId != null">
+        comment_id,
+      </if>
+      <if test="commentator != null">
+        commentator,
+      </if>
+      <if test="commentatorName != null">
+        commentator_name,
+      </if>
+      <if test="commentatorAvatar != null">
+        commentator_avatar,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="commentId != null">
+        #{commentId,jdbcType=BIGINT},
+      </if>
+      <if test="commentator != null">
+        #{commentator,jdbcType=BIGINT},
+      </if>
+      <if test="commentatorName != null">
+        #{commentatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="commentatorAvatar != null">
+        #{commentatorAvatar,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pytap.blog.model.domain.ReplyExample" resultType="java.lang.Long">
+    select count(*) from reply
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update reply
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.commentId != null">
+        comment_id = #{record.commentId,jdbcType=BIGINT},
+      </if>
+      <if test="record.commentator != null">
+        commentator = #{record.commentator,jdbcType=BIGINT},
+      </if>
+      <if test="record.commentatorName != null">
+        commentator_name = #{record.commentatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commentatorAvatar != null">
+        commentator_avatar = #{record.commentatorAvatar,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update reply
+    set id = #{record.id,jdbcType=BIGINT},
+      comment_id = #{record.commentId,jdbcType=BIGINT},
+      commentator = #{record.commentator,jdbcType=BIGINT},
+      commentator_name = #{record.commentatorName,jdbcType=VARCHAR},
+      commentator_avatar = #{record.commentatorAvatar,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pytap.blog.model.domain.Reply">
+    update reply
+    <set>
+      <if test="commentId != null">
+        comment_id = #{commentId,jdbcType=BIGINT},
+      </if>
+      <if test="commentator != null">
+        commentator = #{commentator,jdbcType=BIGINT},
+      </if>
+      <if test="commentatorName != null">
+        commentator_name = #{commentatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="commentatorAvatar != null">
+        commentator_avatar = #{commentatorAvatar,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pytap.blog.model.domain.Reply">
+    update reply
+    set comment_id = #{commentId,jdbcType=BIGINT},
+      commentator = #{commentator,jdbcType=BIGINT},
+      commentator_name = #{commentatorName,jdbcType=VARCHAR},
+      commentator_avatar = #{commentatorAvatar,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
