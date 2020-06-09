@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 定时器
+ * 定时器获取网站统计数据
  * @author Ecin520
  * @date 2020/5/23 0:35
  */
@@ -41,7 +41,7 @@ public class Scheduler {
 		HttpClient httpClient = HttpClients.createDefault();
 
 		String baseUrl = "https://openapi.baidu.com/rest/2.0/tongji/report/getData?";
-		String accessToken = "access_token=121.694d7f30f972e6320affcbce76e7ee31.Y3nL1IpmHC0PyhESHRsdQ76Ocgg538IwJNh8J_S.1eVDdQ&site_id=15113920";
+		String accessToken = "access_token=121.7a64e535baec9de911c8349f408f113c.Y_TKyMUg3fAnZtTwLAUQ1KroVO8HNbWgHerK8Gw.cO0wAw";
 		String siteId = "&site_id=15113920";
 		String startDate = "&start_date=20200501";
 		String endDate = "&end_date=" + now();
@@ -57,6 +57,7 @@ public class Scheduler {
 			HttpResponse response = httpClient.execute(post);
 			String text = EntityUtils.toString(response.getEntity());
 			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+
 				Map<String, Object> map = JSONObject.parseObject(text);
 
 				@SuppressWarnings("unchecked")
