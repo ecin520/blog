@@ -5,12 +5,10 @@ import com.pytap.blog.model.domain.User;
 import com.pytap.blog.model.dto.UserDTO;
 import com.pytap.blog.service.CommonService;
 import com.pytap.blog.service.UserService;
-import com.pytap.blog.utils.FinalUtil;
 import com.pytap.blog.utils.JsonUtil;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
 
 /**
  * @author Ecin520
